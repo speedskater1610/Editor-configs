@@ -1,0 +1,165 @@
+" ===== BASIC SETTINGS =====
+set nocompatible
+filetype plugin indent on
+syntax on
+
+" Tab settings - 4 spaces
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set smartindent
+set autoindent
+
+" Cursor settings - vertical bar in insert mode
+set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
+set guicursor+=a:blinkwait700-blinkoff400-blinkon250
+
+" Line numbers
+set number
+set relativenumber
+
+" System clipboard integration
+set clipboard=unnamedplus
+
+" ===== FILE EXPLORER (NETRW) =====
+" Open directory explorer on the right side
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 20
+let g:netrw_liststyle = 3
+
+" Auto-open netrw when starting vim with a directory
+augroup AutoNetrw
+    autocmd!
+    autocmd VimEnter * if isdirectory(expand('%')) | Vexplore | wincmd p | endif
+augroup END
+
+" Toggle file explorer with <leader>e
+nnoremap <leader>e :Vexplore<CR>
+
+" ===== AUTO-COMPLETION FOR BRACKETS ===== " Removed auto-completion - brackets must be typed manually
+" Auto-indent on enter after opening bracket
+inoremap {<CR> {<CR>}<Esc>O
+inoremap [<CR> [<CR>]<Esc>O
+inoremap (<CR> (<CR>)<Esc>O
+
+" ===== COLOR SCHEME =====
+set background=dark
+set termguicolors
+
+" Custom color scheme
+highlight Normal guibg=#001a33 guifg=#e0e0e0
+highlight LineNr guibg=#003366 guifg=#66b3ff
+highlight CursorLineNr guibg=#003366 guifg=#66b3ff
+highlight VertSplit guibg=#66b3ff guifg=#66b3ff
+
+" Keywords - Blue
+highlight Statement guifg=#4488ff gui=bold
+highlight Keyword guifg=#4488ff gui=bold
+highlight Conditional guifg=#4488ff gui=bold
+highlight Repeat guifg=#4488ff gui=bold
+highlight Label guifg=#4488ff gui=bold
+
+" Identifiers - Light Blue
+highlight Identifier guifg=#66ccff gui=none
+highlight Function guifg=#66ccff gui=none
+
+" Literals - Reddish Pink
+highlight Number guifg=#ff6699
+highlight Float guifg=#ff6699
+
+" Strings - Green
+highlight String guifg=#66ff66
+
+" Char literals - Green
+highlight Character guifg=#66ff66
+
+" Boolean values - Blue
+highlight Boolean guifg=#4488ff
+
+" Null/Unit literals - Orange
+highlight Constant guifg=#ff9933
+
+" Operators - Orange
+highlight Operator guifg=#ff9933
+
+" Logical operators - Bright Pink
+highlight link Special SpecialLogical
+highlight SpecialLogical guifg=#ff66ff
+
+" Grouping symbols - Bright Orange
+highlight Delimiter guifg=#ff8800
+highlight MatchParen guibg=#ff8800 guifg=#000000 gui=bold
+
+" Comments - Dark Green
+highlight Comment guifg=#2d5016 gui=italic
+
+" Preprocessor/Directives - Yellow
+highlight PreProc guifg=#ffff00
+highlight Include guifg=#ffff00
+highlight Define guifg=#ffff00
+highlight Macro guifg=#ffff00
+highlight PreCondit guifg=#ffff00
+
+" Annotations/Attributes - Grey
+highlight Special guifg=#888888
+highlight SpecialChar guifg=#888888
+highlight Tag guifg=#888888
+highlight Debug guifg=#888888
+
+" Types
+highlight Type guifg=#66ccff
+
+" ===== SPECIAL COMMENT HIGHLIGHTING =====
+" Highlight all-caps words with colon in comments (TODO:, NOTE:, etc.)
+augroup SpecialComments
+    autocmd!
+    autocmd Syntax * syntax match CommentLabel /\v<[A-Z]{2,}:/ containedin=Comment contained
+    autocmd Syntax * highlight CommentLabel guibg=#ffffff guifg=#4488ff gui=bold
+augroup END
+
+augroup Constant
+    autocmd!
+    autocmd Syntax * syntax match CommentLabel /\v<[A-Z]{2,}:/
+    autocmd Syntax * highlight CommentLabel guibg=#ffffff guifg=#800080
+augroup END
+
+" ===== STRING ESCAPE SEQUENCES - ORANGE =====
+highlight SpecialChar guifg=#FFA500
+
+" Match escape sequences in strings
+syntax match EscapeSequence /\\[nrt'"\\]/ contained containedin=String
+syntax match EscapeSequence /\\x[0-9a-fA-F]\{2}/ contained containedin=String
+syntax match EscapeSequence /\\u[0-9a-fA-F]\{4}/ contained containedin=String
+syntax match EscapeSequence /\\[0-7]\{1,3}/ contained containedin=String
+highlight link EscapeSequence SpecialChar
+
+" ===== ADDITIONAL ENHANCEMENTS =====
+" Enable mouse support
+set mouse=a
+
+" Better search
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+
+" Show matching brackets
+set showmatch
+
+" Status line
+set laststatus=2
+set statusline=%F%m%r%h%w\ [%l,%v][%p%%]
+
+" Enable wildmenu for command completion
+set wildmenu
+set wildmode=longest:full,full
+
+" Tab line for multiple files
+set showtabline=2
+
+" Map ,w to save quickly
+nnoremap ,w :w<CR>
+
+" Map ,q to quit
+nnoremap ,q :q<CR>
